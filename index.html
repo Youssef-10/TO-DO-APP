@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do App</title>
+    <style>
+      .container {
+        width: 550px;
+        margin: auto;
+        text-align: center;
+        margin-top: 200px;
+        position: relative;
+      }
+      form {
+        background-color: #eee;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        height: 70px;
+        outline: none;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+      .input {
+        border: none;
+        width: 400px;
+        border-radius: 8px;
+        height: 35px;
+        outline: none;
+        padding-left: 15px;
+        caret-color: orangered;
+      }
+      .add {
+        border: none;
+        background-color: orangered;
+        color: white;
+        width: fit-content;
+        height: 35px;
+        border-radius: 8px;
+        padding: 0 10px;
+        outline: none;
+        cursor: pointer;
+      }
+      .tasks {
+        background-color: #eee;
+        padding: 20px;
+        border-radius: 8px;
+        min-height: 30px;
+      }
+      .task {
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        border-radius: 8px;
+      }
+      .task:hover {
+        background-color: #f7f7f7;
+      }
+      .task.done {
+        opacity: 0.6;
+      }
+      .task:not(:last-child) {
+        margin-bottom: 15px;
+      }
+      .task p {
+        font-size: 20px;
+        margin: 10px 0;
+      }
+      .task button {
+        border: none;
+        outline: none;
+        background-color: orangered;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .clear {
+        position: absolute;
+        right: 30px;
+        bottom: -49px;
+        border: none;
+        outline: none;
+        background-color: #e71336;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+        display: none;
+      }
+      @media (max-width: 767px) {
+        .container {
+          width: auto;
+        }
+        .input {
+          width: 230px;
+        }
+        form {
+          padding: 0 10px;
+        }
+        .tasks {
+          padding: 10px;
+        }
+        .task {
+          padding: 0 10px;
+        }
+        .clear {
+          right: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form action="">
+        <input type="text" class="input" />
+        <input type="submit" class="add" value="Add Task" />
+      </form>
+      <div class="tasks"></div>
+      <button class="clear">Clear</button>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
