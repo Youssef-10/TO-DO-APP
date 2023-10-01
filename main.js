@@ -14,25 +14,55 @@ if (window.localStorage.getItem("tasks")) {
 // click on tasks div
 tasksDiv.addEventListener("click", function (e) {
   // check if i click delete button
-  if (e.target.tagName === "BUTTON") {
+  if (e.target.classList.contains("delete")) {
     // remove task from page
     e.target.parentElement.remove();
     // remove task from local storage
     DeleteTaskWith(e.target.parentElement.getAttribute("data-id"));
+    // styling the clear button
     if (tasksDiv.innerHTML !== "") {
       clearBtn.style.display = "block";
     } else {
       clearBtn.style.display = "none";
     }
-    input.focus();
   }
+  // check if i click the edit button
+  if (e.target.classList.contains("edit")) {
+    let paragraph = e.target.previousElementSibling;
+    paragraph.setAttribute("contenteditable", "true");
+    paragraph.style.border = "1px dashed #429ebd";
+    paragraph.style.flex = "1";
+    paragraph.style.padding = "2px 0 2px 10px";
+    paragraph.style.outline = "none";
+    paragraph.style.caretColor = "#429ebd";
+    //create close button for the edit option
+    let close = document.createElement("span");
+    close.className = "close";
+    paragraph.parentElement.append(close);
+    // edit the task
+    close.addEventListener("click", (e) => {
+      // edit the task in the local storage
+      arrayOfTasks.forEach((task) => {
+        if (task.id == close.parentElement.getAttribute("data-id")) {
+          task.title = paragraph.innerHTML;
+        }
+        addDataToLocalStorageFrom(arrayOfTasks);
+      });
+      // to remove the edit effects
+      paragraph.setAttribute("contenteditable", "false");
+      paragraph.style.border = "none";
+      paragraph.style.flex = "0";
+      paragraph.style.padding = "0";
+      close.remove();
+    });
+  }
+
   // check if i click the task
   if (e.target.classList.contains("task")) {
     // toggle the done class
     e.target.classList.toggle("done");
     // toggle the completed attripute
     toggleStateWith(e.target.getAttribute("data-id"));
-    input.focus();
   }
 });
 
@@ -41,7 +71,7 @@ form.onsubmit = (e) => {
     addTaskToArr(input.value);
     input.value = "";
   }
-  input.focus();
+
   e.preventDefault();
 };
 
@@ -52,6 +82,7 @@ function addTaskToArr(text) {
     title: text,
     completed: false,
   };
+  // add tasks to the array of tasks
   arrayOfTasks.push(task);
   addElementToPageFrom(arrayOfTasks);
   addDataToLocalStorageFrom(arrayOfTasks);
@@ -60,24 +91,28 @@ function addTaskToArr(text) {
 function addElementToPageFrom(arrayOfTasks) {
   // empty tasks div
   tasksDiv.innerHTML = "";
-
+  // create task div
   arrayOfTasks.forEach(function (task) {
-    // create task div
-    let div = document.createElement("div");
-    div.className = "task";
-    if (task.completed) {
-      div.className = "task done";
-    }
-    let p = document.createElement("p");
-    p.innerHTML = task.title;
-    div.append(p);
-    div.setAttribute("data-id", `${task.id}`);
+    // create the box container
+    let box = document.createElement("div");
+    box.className = "task";
+    box.setAttribute("data-id", task.id);
     // create delete button
-    let button = document.createElement("button");
-    button.innerHTML = "Delete";
-    div.append(button);
-    // add div into tasksdiv
-    tasksDiv.append(div);
+    let deleteBtn = document.createElement("span");
+    deleteBtn.className = "delete";
+    // create Edit Button
+    let editBtn = document.createElement("span");
+    editBtn.className = "edit";
+    // create the paragraph
+    let p = document.createElement("p");
+    p.className = "paragraph";
+    if (task.completed) {
+      task.className = "task done";
+    }
+    p.innerHTML = task.title;
+    // add the box container into tasksdiv
+    box.append(p, editBtn, deleteBtn);
+    tasksDiv.append(box);
     if (tasksDiv.innerHTML !== "") {
       clearBtn.style.display = "block";
     } else {
@@ -99,9 +134,9 @@ function getDataFromLocalStorage() {
 }
 
 function DeleteTaskWith(taskid) {
-  //   for (let i = 0; i < arrayOfTasks.length; i++) {
-  //     console.log(`${arrayOfTasks[i].id} === ${taskid}`);
-  //   }
+  // for (let i = 0; i < arrayOfTasks.length; i++) {
+  //   console.log(`${arrayOfTasks[i].id} === ${taskid}`);
+  // }
   arrayOfTasks = arrayOfTasks.filter(function (task) {
     return task.id != taskid;
   });
@@ -123,5 +158,4 @@ clearBtn.onclick = () => {
   tasksDiv.innerHTML = "";
   clearBtn.style.display = "none";
   arrayOfTasks = [];
-  input.focus();
 };

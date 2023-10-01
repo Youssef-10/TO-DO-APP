@@ -3,14 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>To Do App</title>
+    <title>TO DO APP</title>
+    <link rel="stylesheet" href="all.min.css" />
+    <script src="main.js" defer></script>
     <style>
-      .container {
+      @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap");
+      body > .container {
         width: 550px;
         margin: auto;
         text-align: center;
         margin-top: 200px;
         position: relative;
+        font-family: "Rubik", sans-serif;
       }
       form {
         background-color: #eee;
@@ -45,17 +49,50 @@
       }
       .tasks {
         background-color: #eee;
-        padding: 20px;
+        padding: 20px 15px;
         border-radius: 8px;
         min-height: 30px;
       }
       .task {
-        background-color: white;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 20px;
+        min-height: 50px;
+        background-color: white;
+        padding: 0 10px;
         border-radius: 8px;
+        position: relative;
+      }
+      .task:not(:last-child) {
+        margin-bottom: 10px;
+      }
+      .task p {
+        margin: 0;
+        padding: 0;
+        text-align: left;
+        font-size: 20px;
+        max-width: calc(100% - 60px);
+        min-width: fit-content;
+      }
+      .task .close {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        background-color: #429ebd;
+        color: white;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 72px;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        font-size: 15px;
+      }
+      .task .close::before {
+        content: "\f00c";
+        font-family: "font awesome 5 free";
+        font-weight: bold;
       }
       .task:hover {
         background-color: #f7f7f7;
@@ -63,21 +100,29 @@
       .task.done {
         opacity: 0.6;
       }
-      .task:not(:last-child) {
-        margin-bottom: 15px;
-      }
-      .task p {
-        font-size: 20px;
-        margin: 10px 0;
-      }
-      .task button {
-        border: none;
-        outline: none;
-        background-color: orangered;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 8px;
+      .task > span {
+        transition: 0.3s;
         cursor: pointer;
+      }
+      .task .edit {
+        position: absolute;
+        right: 40px;
+      }
+      .delete:hover {
+        color: red;
+      }
+      .edit:hover {
+        color: #429ebd;
+      }
+      .delete::before {
+        content: "\f2ed";
+        font-family: "Font Awesome 5 Free";
+        font-weight: bold;
+      }
+      .edit::before {
+        content: "\f044";
+        font-family: "Font Awesome 5 Free";
+        font-weight: bold;
       }
       .clear {
         position: absolute;
@@ -98,7 +143,7 @@
           width: auto;
         }
         .input {
-          width: 230px;
+          width: calc(100% - 110px);
         }
         form {
           padding: 0 10px;
@@ -124,6 +169,5 @@
       <div class="tasks"></div>
       <button class="clear">Clear</button>
     </div>
-    <script src="main.js"></script>
   </body>
 </html>
